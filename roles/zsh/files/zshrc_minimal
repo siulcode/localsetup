@@ -1,0 +1,49 @@
+autoload -Uz promptinit
+promptinit
+# prompt redhat
+
+setopt histignorealldups sharehistory
+
+export ZSH=$HOME/dotfiles
+
+export OHMYZSH="$ZSH/misc/oh-my-zsh"
+
+ZSH_THEME="agnoster"
+
+plugins=(
+  git
+	zsh-syntax-highlighting
+	zsh-autosuggestions
+	kubetail
+)
+
+source $OHMYZSH/oh-my-zsh.sh
+
+# Keep 100000 lines of history within the shell and save it to ~/.zsh_history:
+HISTSIZE=100000
+SAVEHIST=100000
+HISTFILE=~/.zsh_history
+
+# shortcut to this dotfiles path is $ZSH
+export PATH=$PATH:$ZSH/bin
+
+# Enable z script
+source ~/dotfiles/roles/z/enable.zsh
+
+# use .localrc for SUPER SECRET CRAP that you don't
+# want in your public, versioned repo.
+if [[ -a ~/.localrc ]]
+then
+  source ~/.localrc
+fi
+
+mykeys() {
+	ssh-add ~/.ssh/git_id_rsa
+	ssh-add ~/.ssh/id_rsa
+}
+
+# load keys
+mykeys >/dev/null 2>&1
+
+# Lets grab our config
+source $HOME/dotfiles/roles/zsh/files/zshrc_link.sh
