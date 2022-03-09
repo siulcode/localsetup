@@ -6,7 +6,7 @@ Fully supports macOS. Red Hat and Debian support is good but not as complete.
 a few neat features
 -------------------
 
-- zsh configured with [prezto](https://github.com/sorin-ionescu/prezto).
+- Installation of zsh as well as oh-my-zsh.
 - nice fonts for the terminal and coding.
 - python2, python3, pipx (for managing python CLIs), pyenv (for managing Python versions), and pyenv-virtualenv (for managing virtualenvs)
 - a tmux.conf that's pretty neat.
