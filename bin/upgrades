@@ -1,8 +1,10 @@
 #!/usr/bin/env bash
 
+REPO="localsetup"
+
 brew upgrade --cask
 vim +PlugUpdate +qall
 
 if command -v terminal-notifier 1>/dev/null 2>&1; then
-  terminal-notifier -title "dotfiles: upgrades" -message "Upgrades complete."
+  terminal-notifier -title "localsetup: upgrades" -message "Upgrades complete."
 fi

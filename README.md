@@ -10,7 +10,7 @@ a few neat features
 - nice fonts for the terminal and coding.
 - python2, python3, pipx (for managing python CLIs), pyenv (for managing Python versions), and pyenv-virtualenv (for managing virtualenvs)
 - a tmux.conf that's pretty neat.
-- vim with [vim-plug](https://github.com/junegunn/vim-plug) for plugin management. All configuration in a single file [.vimrc](https://github.com/sloria/dotfiles/blob/master/roles/vim/files/vimrc).
+- vim with [vim-plug](https://github.com/junegunn/vim-plug) for plugin management. All configuration in a single file [.vimrc](https://github.com/sloria/localsetup/blob/master/roles/vim/files/vimrc).
 - pluggable. Everything is optional. Fork this. Remove what you don't use. Configure what you do use.
 - Mac packages installed with [homebrew][]. Mac apps installed with [homebrew-cask][] and [mas][].
 - Useful git aliases
@@ -126,7 +126,7 @@ After backing up your `~/.vim` directory and `~/.vimrc`:
 ```
 mkdir -p ~/.vim/autoload
 curl -fLo ~/.vim/autoload/plug.vim https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-curl -fLo ~/.vimrc https://raw.githubusercontent.com/sloria/dotfiles/master/roles/vim/files/vimrc
+curl -fLo ~/.vimrc https://raw.githubusercontent.com/sloria/localsetup/master/roles/vim/files/vimrc
 ```
 
 You will now be able to open vim and run `:PlugInstall` to install all plugins.

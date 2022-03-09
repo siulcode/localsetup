@@ -8,27 +8,27 @@
 
 # Plugin manager
 - name: Makes sure autoload directory exists
-  file: path="{{dotfiles_user_home}}/.vim/autoload" state=directory
+  file: path="{{localsetup_user_home}}/.vim/autoload" state=directory
 
 - name: Check if vim-plug is installed
   stat:
-    path: "{{dotfiles_user_home}}/.vim/autoload/plug.vim"
+    path: "{{localsetup_user_home}}/.vim/autoload/plug.vim"
   register: vim_plug_check
 
 - name: Install vim-plug
   get_url:
     url: https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-    dest: "{{dotfiles_user_home}}/.vim/autoload/plug.vim"
+    dest: "{{localsetup_user_home}}/.vim/autoload/plug.vim"
   when: not vim_plug_check.stat.exists
 
 # Snippets
 - name: Makes sure UltiSnips directory exists
-  file: path="{{dotfiles_user_home}}/.vim/UltiSnips" state=directory
+  file: path="{{localsetup_user_home}}/.vim/UltiSnips" state=directory
 
 - name: Symlink all snippet files
   file:
-    src: "{{ dotfiles_home }}/roles/vim/files/{{item}}"
-    dest: "{{ dotfiles_user_home}}/.vim/UltiSnips/{{item}}"
+    src: "{{ localsetup_home }}/roles/vim/files/{{item}}"
+    dest: "{{ localsetup_user_home}}/.vim/UltiSnips/{{item}}"
     state: link
   with_items:
     - "python.snippets"
@@ -37,20 +37,20 @@
 
 # Configuration
 - name: Check if vimrc exists
-  stat: path="{{dotfiles_user_home}}/.vimrc"
+  stat: path="{{localsetup_user_home}}/.vimrc"
   register: vimrc_stat
   failed_when: False
 
 - name: Backup vimrc
   command: mv ~/.vimrc ~/.vimrc.bak
   args:
-    creates: "{{dotfiles_user_home}}/.vimrc.bak"
+    creates: "{{localsetup_user_home}}/.vimrc.bak"
   when: vimrc_stat.stat.exists
 
 - name: Symlink vimrc
   file:
-    src: "{{ dotfiles_home }}/roles/vim/files/vimrc"
-    dest: "{{dotfiles_user_home}}/.vimrc"
+    src: "{{ localsetup_home }}/roles/vim/files/vimrc"
+    dest: "{{localsetup_user_home}}/.vimrc"
     state: link
 
 - name: Install plugins

@@ -4,7 +4,7 @@ promptinit
 
 setopt histignorealldups sharehistory
 
-export ZSH=$HOME/dotfiles
+export ZSH=$HOME/localsetup
 
 export OHMYZSH="$ZSH/misc/oh-my-zsh"
 
@@ -24,11 +24,11 @@ HISTSIZE=100000
 SAVEHIST=100000
 HISTFILE=~/.zsh_history
 
-# shortcut to this dotfiles path is $ZSH
+# shortcut to this localsetup path is $ZSH
 export PATH=$PATH:$ZSH/bin
 
 # Enable z script
-source ~/dotfiles/roles/z/enable.zsh
+source ~/localsetup/roles/z/enable.zsh
 
 # use .localrc for SUPER SECRET CRAP that you don't
 # want in your public, versioned repo.
@@ -46,4 +46,4 @@ mykeys() {
 mykeys >/dev/null 2>&1
 
 # Lets grab our config
-source $HOME/dotfiles/roles/zsh/files/zshrc_link.sh
+source $HOME/localsetup/roles/zsh/files/zshrc_link.sh

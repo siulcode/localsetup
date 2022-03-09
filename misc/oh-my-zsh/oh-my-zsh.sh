@@ -1,5 +1,5 @@
 # Overwriting ZSH HOME
-ZSH="$HOME/dotfiles/misc/oh-my-zsh"
+ZSH="$HOME/localsetup/misc/oh-my-zsh"
 
 # Set ZSH_CACHE_DIR to the path where cache files should be created
 # or else we will use the default cache/

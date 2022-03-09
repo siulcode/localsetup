@@ -9,14 +9,14 @@
 
 # Configuration
 - name: Check if zshrc already exists
-  stat: path="{{dotfiles_user_home}}/.zshrc"
+  stat: path="{{localsetup_user_home}}/.zshrc"
   register: zshrc_stat
 
 - name: Back up zshrc if it exists
   command: mv ~/.zshrc ~/.zshrc.bak
   args:
-    creates: "{{dotfiles_user_home}}/.zshrc.bak"
+    creates: "{{localsetup_user_home}}/.zshrc.bak"
   when: zshrc_stat.stat.exists
 
 - name: Copy minimal zshrc
-  copy: src=zshrc_minimal dest={{dotfiles_user_home}}/.zshrc
+  copy: src=zshrc_minimal dest={{localsetup_user_home}}/.zshrc

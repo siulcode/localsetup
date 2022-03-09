@@ -1,7 +1,7 @@
 #!/bin/sh
 
 # set reasonable macOS defaults
-# inspired by : https://github.com/mathiasbynens/dotfiles
+# inspired by : https://github.com/mathiasbynens/localsetup
 # more can be found here : https://gist.github.com/brandonb927/3195465
 
 if [ "$(uname -s)" != "Darwin" ]; then

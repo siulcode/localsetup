@@ -1,11 +1,11 @@
 # vi: set ft=yaml :
 
 # NOTE: The below 2 variables should not need to be changed if you cloned
-#   the dotfiles repo to '~/dotfiles'
+#   the localsetup repo to '~/localsetup'
 #  Local home directory
-dotfiles_user_home: "{{ '~' | expanduser }}"
-# Where your dotfiles live. Probably don't need to change this.
-dotfiles_home: "{{dotfiles_user_home}}/dotfiles"
+localsetup_user_home: "{{ '~' | expanduser }}"
+# Where your localsetup live. Probably don't need to change this.
+localsetup_home: "{{localsetup_user_home}}/localsetup"
 
 # Name used in commit messages
 full_name: Luis L.
@@ -72,7 +72,6 @@ mac_cask_packages:
   - firefox
   # Display
   - keepingyouawake  # maintained caffeinate wrapper
-  - bestres  # quickly switch resolution
   # Utilities
   - appcleaner
   - daisydisk
@@ -87,12 +86,10 @@ mac_cask_packages:
   # Fonts
   - font-ubuntu
   - font-cousine
-  - font-hack
+  - font-fira-code-nerd-font
   - font-ia-writer-duospace
   # Database client
   - tableplus
-  # Markdown-based presentations
-  - deckset
   # Screen captures and recording
   - cleanshot
 

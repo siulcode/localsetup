@@ -17,32 +17,32 @@
   tags: pyenv
 
 - name: Check if pytest.ini file exists
-  stat: path="{{dotfiles_user_home}}/pytest.ini"
+  stat: path="{{localsetup_user_home}}/pytest.ini"
   register: pytest_stat
 
 - name: Back up pytest.ini file
   command: mv ~/pytest.ini ~/pytest.ini.bak
   args:
-    creates: "{{dotfiles_user_home}}/pytest.ini"
+    creates: "{{localsetup_user_home}}/pytest.ini"
   when: pytest_stat.stat.exists
 
 - name: Link pytest.ini file
   file:
-    src: "{{dotfiles_home}}/roles/python/files/pytest.ini"
-    dest: "{{dotfiles_user_home}}/pytest.ini"
+    src: "{{localsetup_home}}/roles/python/files/pytest.ini"
+    dest: "{{localsetup_user_home}}/pytest.ini"
     state: link
 
 - name: Install pipx
   tags: pipx
   shell: "PYENV_VERSION=system python3 -m pip install --user pipx && PYENV_VERSION=system python3 -m pipx install pipx"
   args:
-    creates: "{{dotfiles_user_home}}/.local/bin/pipx"
+    creates: "{{localsetup_user_home}}/.local/bin/pipx"
 
 - name: Install poetry
   tags: poetry
   shell: "curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py | python"
   args:
-    creates: "{{dotfiles_user_home}}/.poetry/bin/poetry"
+    creates: "{{localsetup_user_home}}/.poetry/bin/poetry"
 
 # A global `virtualenv` command is needed for prezto's pyenv-virtualenv to work
 - name: Install virtualenv

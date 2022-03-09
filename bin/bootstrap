@@ -1,10 +1,11 @@
 #!/usr/bin/env bash
 set -e
 
-echo "Setting up local dev environment..."
-ansible-playbook -i ~/dotfiles/hosts ~/dotfiles/local_env.yml --ask-become-pass
+REPO="localsetup"
 
+echo "Setting up local dev environment..."
+ansible-playbook -i ~/$REPO/hosts ~/$REPO/local_env.yml --ask-become-pass
 # If terminal-notifier is installed, use it to display a notification
 if command -v terminal-notifier 1>/dev/null 2>&1; then
-  terminal-notifier -title "dotfiles: Bootstrap complete" -message "Successfully set up dev environment."
+  terminal-notifier -title "$REPO: Bootstrap complete" -message "Successfully set up dev environment."
 fi
