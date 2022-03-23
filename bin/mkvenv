@@ -19,7 +19,7 @@ current_dir=${PWD##*/}
 name=${1:-$current_dir}
 # If python version is passed as second argument, use that, otherwise use 3.8
 python_version=${2:-3.9.9}
-common_packages=("ipython" "ipdb" "ped")
+common_packages=("ipython" "ipdb" "ped" "boto3")
 
 bold_name="\e[1m$name\e[m"
 bold_python="\e[1m$python_version\e[m"

@@ -208,7 +208,7 @@ set noerrorbells visualbell t_vb=
 
 """ VISUAL SETTINGS """
 if &term =~ '256color' | set t_ut= | endif
-set background=dark | colorscheme hybrid-sl
+set background=dark | colorscheme hybrid
 
 " Show trailing whitespace
 set list listchars=tab:▸\ ,trail:▫
@@ -300,9 +300,3 @@ augroup configgroup
   " commit messages
   autocmd Filetype gitcommit setlocal nolist textwidth=72
 augroup END
-
-" GUI settings, e.g. MacVim
-" set guifont=Ubuntu\ Mono:h14
-set guifont=Hack:h12
-" Hide scrollbars and menu
-set guioptions-=T guioptions-=R guioptions-=r guioptions-=m guioptions-=l guioptions-=L
