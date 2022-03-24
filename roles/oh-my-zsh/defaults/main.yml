@@ -183,7 +183,7 @@ zsh_powerlevel9k_dir_path_highlight_background: "{{ zsh_powerlevel9k_dir_backgro
 
 # vcs colors
 zsh_powerlevel9k_vcs_foreground: "232" # about black on any palette
-zsh_powerlevel9k_vcs_clean_background: "100" # dirty green
+zsh_powerlevel9k_vcs_clean_background: "034" # dirty green
 zsh_powerlevel9k_vcs_modified_background: "094" # orange
 zsh_powerlevel9k_vcs_untracked_background: "094" # orange
 
