@@ -33,6 +33,7 @@ mac_homebrew_packages:
   - wget
   - highlight
   - terminal-notifier
+  - gnu-tar
   - youtube-dl
   - htop-osx
   - httpie
@@ -105,3 +106,5 @@ mac_mas_packages:
 pyenv_global_versions:
   - 3.9.9
   - 3.8.11
+# Load auto suggestions on shell with ctrl+U
+zsh_autosuggestions_bind_key: "^U"
