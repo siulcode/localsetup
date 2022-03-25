@@ -31,6 +31,7 @@ mac_homebrew_packages:
   - curl
   - jq
   - wget
+  - fzf
   - highlight
   - terminal-notifier
   - gnu-tar
