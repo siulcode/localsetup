@@ -1,3 +1,25 @@
+# Kubernetes
+alias k="kubectl"
+alias kp="kubectl get pods -A"
+alias kubectx="kubectl ctx"
+alias kn='kubectl ns'
+
+# Python
+alias python="python3"
+alias pip="pip3"
+
+# Dir listing
+alias ll="ls -l"
+alias la="ls -la"
+alias wpd="pwd"
+
+# Terraform goodies
+alias tplan='terraform plan'
+alias tapply='terraform apply --auto-approve'
+alias tinit='terraform init'
+alias tdestroy='terraform destroy'
+
+
 # Usage: kubewatch
 #        kubewatch stage-3
 function kubewatch() {

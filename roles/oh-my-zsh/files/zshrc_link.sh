@@ -1,6 +1,6 @@
 #!/usr/bin/env zsh
 
-role=(ansible bat docker exa)
+role=(ansible bat docker kubernetes exa)
 
 for bin in ${role[@]}; do
   config_files=($HOME/localsetup/roles/$bin/*.zsh)
