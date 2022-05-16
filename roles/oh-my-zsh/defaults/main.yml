@@ -36,6 +36,7 @@ zsh_antigen_bundles:
   - fancy-ctrl-z
   - git
   - git-extras
+  - kubetail
   - gnu-utils
   - { name: httpie, command: http }
   - { name: golang, command: go }
