@@ -1,171 +1,130 @@
-# {{ ansible_managed }}
-# zsh version: {{ zsh_version }}
-# antigen version: {{ zsh_antigen_installed_version }}
+# Ansible managed
+# zsh version: 5.8.1
+# antigen version: 
 
-export TERM="{{ zsh_term }}"
-{% if zsh_editor %}export EDITOR="{{ zsh_editor }}"
-{% endif %}export PATH="$PATH:{{ zsh_path | join(":") }}"
+export TERM="xterm-256color"
+export PATH="$PATH:$HOME/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games"
 
-{% if zsh_antigen_theme == "romkatv/powerlevel10k powerlevel10k" and zsh_powerlevel10k_instant_prompt %}
-# user configs
-[[ -r "$HOME/.zshrc.local.pre-p10k" ]] && source "$HOME/.zshrc.local.pre-p10k"
 
-# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
-# Initialization code that may require console input (password prompts, [y/n]
-# confirmations, etc.) must go above this block; everything else may go below.
-if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
-  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
-fi
-{% endif %}
-
-HIST_STAMPS="{{ zsh_hist_stamps }}"
-UPDATE_ZSH_DAYS="{{ zsh_update_interval }}"
+HIST_STAMPS="yyyy-mm-dd"
+UPDATE_ZSH_DAYS="30"
 COMPLETION_WAITING_DOTS="true"
 
-# ADOTDIR="{{ zsh_antigen_path_compat }}"
-{% if zsh_shared %}
-ANTIGEN_AUTO_CONFIG=false # disable updates
-_ANTIGEN_THEME_COMPAT=false # disable theme cache
-{% endif %}
+# ADOTDIR="$HOME/.antigen"
 
-ANTIGEN_BUNDLES="{{ zsh_antigen_path_compat }}/bundles"
-ANTIGEN_PLUGIN_UPDATE_DAYS="{{ zsh_update_interval }}"
-ANTIGEN_SYSTEM_UPDATE_DAYS="{{ zsh_update_interval }}"
-
-{% if zsh_mc_solarized_skin %}export MC_SKIN="$HOME/.mc/lib/mc-solarized/solarized.ini"{% endif %}
+ANTIGEN_BUNDLES="$HOME/.antigen/bundles"
+ANTIGEN_PLUGIN_UPDATE_DAYS="30"
+ANTIGEN_SYSTEM_UPDATE_DAYS="30"
 
 
-{% if zsh_custom_before %}# Custom configs zsh_custom_before
-{{ zsh_custom_before }}{% endif %}
 
-source "{{ zsh_antigen_path_compat }}/antigen/antigen.zsh"
+
+source "$HOME/.antigen/antigen/antigen.zsh"
 
 antigen use oh-my-zsh
 
-{% set bundles_enabled = [] %}
 
-{% for bundle in zsh_antigen_bundles -%}
-    {%- if bundle is mapping -%}
-        {% set valid = true -%}
-        {% set command_not_exists = [] -%}
-
-        {%- if bundle.when is defined and not bundle.when -%}
-            {% set valid = false -%}
-        {% endif -%}
-
-        {% if bundle.command is defined -%}
-            {% for cmd in zsh_register_commands_exists.results -%}
-                {% if cmd.cmd is defined and cmd.rc != 0 and cmd.item.command == bundle.command -%}
-                    {% if command_not_exists.append(1) %}{% endif -%}
-                {% endif -%}
-            {% endfor -%}
-        {% endif -%}
-
-        {% if valid and not command_not_exists %}
-            {%- if 'zsh-syntax-highlighting' in bundle.name or 'fast-syntax-highlighting' in bundle.name -%}
+antigen bundle brew
+antigen bundle docker
+antigen bundle docker-compose
+antigen bundle fancy-ctrl-z
+antigen bundle git
+antigen bundle git-extras
+antigen bundle kubetail
+antigen bundle gnu-utils
+antigen bundle httpie
+antigen bundle golang
+antigen bundle helm
+antigen bundle kubectl
+antigen bundle pip
+antigen bundle rake
+antigen bundle python
+antigen bundle tmux
+antigen bundle zsh-users/zsh-autosuggestions
+antigen bundle popstas/zsh-command-time
+antigen bundle unixorn/autoupdate-antigen.zshplugin
+antigen bundle urbainvaes/fzf-marks
+antigen bundle ytet5uy4/fzf-widgets
 # will fixed in zsh-autosuggestion v0.4 - https://github.com/zsh-users/zsh-autosuggestions/pull/218
 if (( ZSHRC_LOAD_ONCE++ == 0 )); then
-    antigen bundle {{ bundle.name }}
+    antigen bundle zdharma-continuum/fast-syntax-highlighting
 fi
-{% else -%}
-{% if bundles_enabled.append(bundle.name) %}{% endif -%}
-antigen bundle {{ bundle.name }}
-{% endif -%}
-        {% endif -%}
-    {%- else -%}
-{% if bundles_enabled.append(bundle) %}{% endif -%}
-antigen bundle {{ bundle }}
-{% endif %}
-{% endfor %}
 
 POWERLEVEL9K_INSTALLATION_PATH=$ANTIGEN_BUNDLES/bhilburn/powerlevel9k/powerlevel9k.zsh-theme
 
-antigen theme {{ zsh_antigen_theme }}
+antigen theme romkatv/powerlevel10k powerlevel10k
 
 antigen apply
 
 ###
 
-{% if not zsh_share_history %}
 unsetopt share_history
-{% endif %}
 
 autoload -Uz copy-earlier-word
 zle -N copy-earlier-word
 
 # zsh-autosuggestions
-ZSH_AUTOSUGGEST_BUFFER_MAX_SIZE={{ zsh_autosuggestions_max_length }}
+ZSH_AUTOSUGGEST_BUFFER_MAX_SIZE=15
 ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=240" # gray highlight
 
 # powerlevel9k
-POWERLEVEL9K_SHORTEN_DIR_LENGTH={{ zsh_powerlevel9k_shorten_dir_length }}
-POWERLEVEL9K_STATUS_VERBOSE={{ zsh_powerlevel9k_status_verbose }}
+POWERLEVEL9K_SHORTEN_DIR_LENGTH=3
+POWERLEVEL9K_STATUS_VERBOSE=0
 
-POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=({{ zsh_powerlevel9k_left_prompt | join(" ") }})
-POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=({{ zsh_powerlevel9k_right_prompt | join(" ") }})
-{% if zsh_powerlevel9k_hide_host_on_local and zsh_user != 'root' %}DEFAULT_USER=$USER{% endif %}
+POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(context dir)
+POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(status background_jobs vcs command_execution_time time)
+DEFAULT_USER=$USER
+POWERLEVEL9K_ALWAYS_SHOW_CONTEXT=true
+POWERLEVEL9K_ALWAYS_SHOW_USER=true
 
-POWERLEVEL9K_ALWAYS_SHOW_CONTEXT={{ zsh_powerlevel9k_always_show_context_bool }}
-POWERLEVEL9K_ALWAYS_SHOW_USER={{ zsh_powerlevel9k_always_show_user_bool }}
-
-{% if zsh_powerlevel_custom_elements is defined and zsh_powerlevel_custom_elements %}
-{% for element in zsh_powerlevel_custom_elements %}
-{% set prefix = "POWERLEVEL9K_CUSTOM_" + element.name | upper %}
-{{ prefix }}="{{ element.command }}"
-{{ prefix }}_BACKGROUND="{{ element.background }}"
-{{ prefix }}_FOREGROUND="{{ element.foreground }}"
-{% endfor %}
-{% endif %}
+POWERLEVEL9K_CUSTOM_COMMAND_TIME="zsh_command_time"
+POWERLEVEL9K_CUSTOM_COMMAND_TIME_BACKGROUND="248"
+POWERLEVEL9K_CUSTOM_COMMAND_TIME_FOREGROUND="000"
 
 # https://github.com/bhilburn/powerlevel9k#command_execution_time
-POWERLEVEL9K_COMMAND_EXECUTION_TIME_THRESHOLD="{{ zsh_command_time_min_seconds }}"
+POWERLEVEL9K_COMMAND_EXECUTION_TIME_THRESHOLD="3"
 
-POWERLEVEL9K_PROMPT_ON_NEWLINE={{ zsh_powerlevel9k_prompt_on_newline_bool }}
+POWERLEVEL9K_PROMPT_ON_NEWLINE=false
 POWERLEVEL9K_RPROMPT_ON_NEWLINE=false
 POWERLEVEL9K_PROMPT_ADD_NEWLINE=true
 
-POWERLEVEL9K_CONTEXT_DEFAULT_FOREGROUND="{{ zsh_powerlevel9k_context_default_foreground }}"
-POWERLEVEL9K_CONTEXT_DEFAULT_BACKGROUND="{{ zsh_powerlevel9k_context_default_background }}"
-POWERLEVEL9K_CONTEXT_REMOTE_FOREGROUND="{{ zsh_powerlevel9k_context_default_foreground }}"
-POWERLEVEL9K_CONTEXT_REMOTE_BACKGROUND="{{ zsh_powerlevel9k_context_default_background }}"
-POWERLEVEL9K_CONTEXT_ROOT_FOREGROUND="{{ zsh_powerlevel9k_context_root_foreground }}"
-POWERLEVEL9K_CONTEXT_ROOT_BACKGROUND="{{ zsh_powerlevel9k_context_root_background }}"
+POWERLEVEL9K_CONTEXT_DEFAULT_FOREGROUND="255"
+POWERLEVEL9K_CONTEXT_DEFAULT_BACKGROUND="024"
+POWERLEVEL9K_CONTEXT_REMOTE_FOREGROUND="255"
+POWERLEVEL9K_CONTEXT_REMOTE_BACKGROUND="024"
+POWERLEVEL9K_CONTEXT_ROOT_FOREGROUND="255"
+POWERLEVEL9K_CONTEXT_ROOT_BACKGROUND="124"
 
-POWERLEVEL9K_DIR_DEFAULT_FOREGROUND="{{ zsh_powerlevel9k_dir_foreground }}"
-POWERLEVEL9K_DIR_DEFAULT_BACKGROUND="{{ zsh_powerlevel9k_dir_background }}"
-POWERLEVEL9K_DIR_HOME_FOREGROUND="{{ zsh_powerlevel9k_dir_foreground }}"
-POWERLEVEL9K_DIR_HOME_BACKGROUND="{{ zsh_powerlevel9k_dir_background }}"
-POWERLEVEL9K_DIR_HOME_SUBFOLDER_FOREGROUND="{{ zsh_powerlevel9k_dir_foreground }}"
-POWERLEVEL9K_DIR_HOME_SUBFOLDER_BACKGROUND="{{ zsh_powerlevel9k_dir_background }}"
-POWERLEVEL9K_DIR_ETC_FOREGROUND="{{ zsh_powerlevel9k_dir_etc_foreground }}"
-POWERLEVEL9K_DIR_ETC_BACKGROUND="{{ zsh_powerlevel9k_dir_etc_background }}"
-POWERLEVEL9K_DIR_PATH_HIGHLIGHT_FOREGROUND="{{ zsh_powerlevel9k_dir_path_highlight_foreground }}"
-POWERLEVEL9K_DIR_PATH_HIGHLIGHT_BACKGROUND="{{ zsh_powerlevel9k_dir_path_highlight_background }}"
+POWERLEVEL9K_DIR_DEFAULT_FOREGROUND="255"
+POWERLEVEL9K_DIR_DEFAULT_BACKGROUND="240"
+POWERLEVEL9K_DIR_HOME_FOREGROUND="255"
+POWERLEVEL9K_DIR_HOME_BACKGROUND="240"
+POWERLEVEL9K_DIR_HOME_SUBFOLDER_FOREGROUND="255"
+POWERLEVEL9K_DIR_HOME_SUBFOLDER_BACKGROUND="240"
+POWERLEVEL9K_DIR_ETC_FOREGROUND="255"
+POWERLEVEL9K_DIR_ETC_BACKGROUND="240"
+POWERLEVEL9K_DIR_PATH_HIGHLIGHT_FOREGROUND="255"
+POWERLEVEL9K_DIR_PATH_HIGHLIGHT_BACKGROUND="240"
 
-POWERLEVEL9K_VCS_CLEAN_BACKGROUND="{{ zsh_powerlevel9k_vcs_clean_background }}"
-POWERLEVEL9K_VCS_MODIFIED_BACKGROUND="{{ zsh_powerlevel9k_vcs_modified_background }}"
-POWERLEVEL9K_VCS_UNTRACKED_BACKGROUND="{{ zsh_powerlevel9k_vcs_untracked_background }}"
-POWERLEVEL9K_VCS_CLEAN_FOREGROUND="{{ zsh_powerlevel9k_vcs_foreground }}"
-POWERLEVEL9K_VCS_MODIFIED_FOREGROUND="{{ zsh_powerlevel9k_vcs_foreground }}"
-POWERLEVEL9K_VCS_UNTRACKED_FOREGROUND="{{ zsh_powerlevel9k_vcs_foreground }}"
+POWERLEVEL9K_VCS_CLEAN_BACKGROUND="034"
+POWERLEVEL9K_VCS_MODIFIED_BACKGROUND="094"
+POWERLEVEL9K_VCS_UNTRACKED_BACKGROUND="094"
+POWERLEVEL9K_VCS_CLEAN_FOREGROUND="232"
+POWERLEVEL9K_VCS_MODIFIED_FOREGROUND="232"
+POWERLEVEL9K_VCS_UNTRACKED_FOREGROUND="232"
 
-POWERLEVEL9K_COMMAND_EXECUTION_TIME_FOREGROUND="{{ zsh_powerlevel9k_command_execution_time_foreground }}"
-POWERLEVEL9K_COMMAND_EXECUTION_TIME_BACKGROUND="{{ zsh_powerlevel9k_command_execution_time_background }}"
+POWERLEVEL9K_COMMAND_EXECUTION_TIME_FOREGROUND="000"
+POWERLEVEL9K_COMMAND_EXECUTION_TIME_BACKGROUND="248"
 
-{% if zsh_load_etc_profile %}source /etc/profile{% endif %}
+source /etc/profile
 
-
-{% if zsh_custom_after %}# Custom configs zsh_custom_after
-{{ zsh_custom_after }}{% endif %}
 
 # user configs
 [[ -r /etc/zsh/zshrc.local ]] && source /etc/zsh/zshrc.local
 [[ -r "$HOME/.zshrc.local" ]] && source "$HOME/.zshrc.local"
 
-{% if zsh_antigen_theme == "romkatv/powerlevel10k powerlevel10k" %}
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
-{% endif %}
 
 
 # Keep 100000 lines of history within the shell and save it to ~/.zsh_history:
