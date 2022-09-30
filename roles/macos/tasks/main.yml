@@ -18,15 +18,16 @@
 - name: Install mas
   homebrew: name=mas state=present
 
-- name: Check if Mac-App-Store-only app is installed
-  stat:
-    path: "/Applications/{{item.name}}.app"
-  register: app_{{item.name}}.check
+# TODO: Check if App Store is available first
+# - name: Check if Mac-App-Store-only app is installed
+#   stat:
+#     path: "/Applications/{{item.name}}.app"
+#   register: app_{{item.name}}.check
 
-- name: Install Mac-App-Store-only apps with mas
-  command: mas install {{item.id}}
-  args:
-    creates: "/Applications/{{item.name}}.app"
-  with_items: '{{mac_mas_packages}}'
-  when: not app_{{item.name}}.check.stat.exists
-  tags: mas
+# - name: Install Mac-App-Store-only apps with mas
+#   command: mas install {{item.id}}
+#   args:
+#     creates: "/Applications/{{item.name}}.app"
+#   with_items: '{{mac_mas_packages}}'
+#   when: not app_{{item.name}}.check.stat.exists
+#   tags: mas
