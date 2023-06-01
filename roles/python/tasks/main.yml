@@ -40,13 +40,13 @@
 
 - name: Install poetry
   tags: poetry
-  shell: "curl -sSL https://install.python-poetry.org | python3 -"
+  shell: "brew install poetry"
   args:
     creates: "{{localsetup_user_home}}/.poetry/bin/poetry"
 
 # A global `virtualenv` command is needed for prezto's pyenv-virtualenv to work
 - name: Install virtualenv
-  shell: "PYENV_VERSION=system python3 -m pip install virtualenv"
+  shell: "brew reinstall pyenv-virtualenv"
   args:
-    creates: "/usr/local/bin/virtualenv"
+    creates: "/opt/homebrew/bin/virtualenv"
   when: ansible_os_family == "Darwin"
