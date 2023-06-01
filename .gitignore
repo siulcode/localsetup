@@ -59,3 +59,8 @@ target/
 
 remotehosts
 *.retry
+
+# Mac crap
+.DS_Store
+*/.DS_Store
+*/*/.DS_Store
