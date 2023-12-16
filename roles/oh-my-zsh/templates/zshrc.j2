@@ -143,5 +143,8 @@ mykeys() {
 # load keys
 mykeys >/dev/null 2>&1
 
+# No Brew auto-update
+HOMEBREW_NO_AUTO_UPDATE=1
+
 # Lets grab our config from our ansible roles
 source $HOME/localsetup/roles/oh-my-zsh/files/zshrc_link.sh
